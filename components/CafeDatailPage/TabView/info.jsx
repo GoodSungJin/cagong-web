@@ -1,10 +1,12 @@
 import { css } from '@emotion/react'
 import Image from 'next/image';
+import { useEffect } from 'react';
 
 const containerStyle = css`
   padding: 0 1rem;
   h3 {
     margin: 1rem 0;
+    font-weight: 700;
   }
   > div {
     padding: 1rem 0;
@@ -82,6 +84,17 @@ const CUSTOMER_INDICATOR_STRINGS = ["청소년", "대학생", "가족 단위", "
 export default function TabViewInfo({
   data
 }) {
+  useEffect(() => {
+		const container = document.getElementById('map');
+		const map = new kakao.maps.Map(container, {
+			center: new kakao.maps.LatLng(data.latitude, data.longitude),
+			level: 3
+		})
+    new kakao.maps.Marker({
+      map,
+      position: new kakao.maps.LatLng(data.latitude, data.longitude),
+    })
+  }, [data]);
   return (
     <div css={containerStyle}>
       <div>
@@ -141,10 +154,10 @@ export default function TabViewInfo({
       </div>
       <div>
         <h3>지도</h3>
-        <div>
-          (맨마지막에추가하자)
-          latlng: {data?.latitude} / {data?.longitude}
-        </div>
+        <div id="map" css={css`
+          width: 100%;
+          aspect-ratio: 1.6;
+        `}/>
       </div>
     </div>
   )
