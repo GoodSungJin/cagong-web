@@ -40,7 +40,7 @@ export default function WriteReviewPage() {
     });
     console.log(resp);
     alert("제출이 완료되었습니다.");
-    router.push(`/cafes/${cafeId}`);
+    router.push(`/cafe/${cafeId}`);
   }
 
   return (
