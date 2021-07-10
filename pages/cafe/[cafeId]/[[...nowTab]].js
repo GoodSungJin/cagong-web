@@ -1,7 +1,9 @@
+import { css } from '@emotion/react';
 import { CafeDetailHeader, CafeTabViewHeader, CafeTabViewPages, fetcher } from '@/components/CafeDatailPage';
+import SharedButton from '@/components/common/SharedButton';
 import TopNavBar from '@/components/common/TopNavBar';
 import { useRouter } from 'next/router'
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import useSWR from 'swr';
 
 function Loading() {
@@ -46,6 +48,12 @@ export default function CafePage() {
     isPaused: () => !(cafeId && selectedTab)
   });
 
+  const routeToReview = useCallback(() => {
+    router.push({pathname: 'write', query: {
+      cafeId, title: baseData?.data?.name,
+    }})
+  }, [router, cafeId, baseData]);
+
   const generateTag = ({noise, lighting, seat}) => {
     const tags = [];
     if (noise > 3) tags.push("소음 심함");
@@ -80,6 +88,11 @@ export default function CafePage() {
       />
       <CafeTabViewHeader cafeId={cafeId} nowTab={selectedTab}/>
       {data && <SelectedTabComponent cafeId={cafeId} data={data?.data}/>}
+      <div css={css`padding: 1rem;`}>
+        <SharedButton onClick={routeToReview}>
+          이 카페에 후기 작성하기
+        </SharedButton>
+      </div>
     </>
   )
 }
