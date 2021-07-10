@@ -1,7 +1,7 @@
 import { css } from '@emotion/react'
 import TopNavBar from '@/components/common/TopNavBar';
 import { useRouter } from 'next/router'
-import { ReviewLinearSelector, ReviewStarSelector, ReviewTextArea } from '@/components/WriteReviewPage';
+import { ReviewFileUploadArea, ReviewLinearSelector, ReviewStarSelector, ReviewTextArea } from '@/components/WriteReviewPage';
 import { useState } from 'react';
 
 const containerStyle = css`
@@ -22,6 +22,7 @@ export default function WriteReviewPage() {
   const [customer, setCustomer] = useState(3);
 
   const [textReview, setTextReview] = useState('');
+  const [uploadedSlot, setUploadedSlot] = useState(["/assets/defaults/cafeHeader.png", "/assets/wifi.svg", null]);
 
   return (
     <> 
@@ -36,6 +37,7 @@ export default function WriteReviewPage() {
         <ReviewLinearSelector question={"주 이용 고객"} value={customer} setValue={setCustomer} displayDigit={false} descriptions={["청소년", "대학생", "가족 단위", "직장인", "그 외"]} />
         <hr/>
         <ReviewTextArea value={textReview} setValue={setTextReview} />
+        <ReviewFileUploadArea uploadedSlot={uploadedSlot} setUploadedSlot={setUploadedSlot} />
       </div>
     </>
   )
