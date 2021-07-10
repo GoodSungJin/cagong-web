@@ -1,6 +1,7 @@
 import '../styles/globals.css'
 import '../styles/reset.css';
 import 'swiper/swiper-bundle.css';
+import 'lightbox-react/style.css';
 import theme from "../styles/theme";
 import { ThemeProvider } from "@emotion/react";
 import axios from 'axios';

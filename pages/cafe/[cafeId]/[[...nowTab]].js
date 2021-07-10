@@ -79,7 +79,7 @@ export default function CafePage() {
         tags={cafeInfo.tags}
       />
       <CafeTabViewHeader cafeId={cafeId} nowTab={selectedTab}/>
-      <SelectedTabComponent cafeId={cafeId} data={data?.data}/>
+      {data && <SelectedTabComponent cafeId={cafeId} data={data?.data}/>}
     </>
   )
 }
