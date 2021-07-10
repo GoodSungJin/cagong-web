@@ -65,11 +65,11 @@ export default function DetailHeader({
       </div>
       <div css={infoAreaStyle}>
         <h1>{title}</h1>
-        <p>
+        <div>
           <Image src={"/assets/cafeCup.svg"} alt={"cagongIndex"} width={16} height={16} />{' '}
           <span css={css`font-weight: bold;`}>카공지수 {cagongIndex}</span>{' '}
           <span>(후기 {reviewCount}개)</span>
-        </p>
+        </div>
         <div css={chipContainerStyle}>
           { tags.map(tag => (
             <button css={tagChipStyle} key={tag}>
