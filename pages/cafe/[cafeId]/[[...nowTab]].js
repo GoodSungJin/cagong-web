@@ -1,7 +1,8 @@
-import { CafeDetailHeader, CafeTabViewHeader, CafeTabViewPages} from '@/components/CafeDatailPage';
+import { CafeDetailHeader, CafeTabViewHeader, CafeTabViewPages, fetcher } from '@/components/CafeDatailPage';
 import TopNavBar from '@/components/common/TopNavBar';
 import { useRouter } from 'next/router'
 import React, { useMemo } from 'react';
+import useSWR from 'swr';
 
 function Loading() {
   return (
@@ -21,7 +22,12 @@ export default function CafePage() {
   const SelectedTabComponent = useMemo(() => {
     if(!selectedTab && !router.isReady) return Loading;
     return CafeTabViewPages[selectedTab];
-  }, [selectedTab, router.isReady]) ;
+  }, [selectedTab, router.isReady]);
+
+  const { data, error } = useSWR(`/cafes/${cafeId}/${selectedTab}`, fetcher, {
+    isPaused: () => !(cafeId && selectedTab)
+  });
+
   // TODO: fetch
   const tmpCafeInfo = {
     headerImage: "/assets/defaults/cafeHeader.png",

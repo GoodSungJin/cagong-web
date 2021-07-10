@@ -1,3 +1,4 @@
+import axios from "axios";
 import DetailHeader from "./DetailHeader";
 
 import TabViewHeader from "./TabView/header";
@@ -13,8 +14,11 @@ const CafeTabViewPages = {
   review: TabViewReview,
 }
 
+const fetcher = (url) => axios.get(url).then((res) => res.data);
+
 export {
   DetailHeader as CafeDetailHeader,
   TabViewHeader as CafeTabViewHeader,
+  fetcher,
   CafeTabViewPages
 }
