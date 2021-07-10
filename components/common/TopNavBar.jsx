@@ -24,10 +24,20 @@ export default function TopNavBar({
 }) {
   const router = useRouter();
   const goBack = useCallback(() => {
-    router.back();
+    if (router.route === "/cafe/[cafeId]/[[...nowTab]]"){
+      router.push(`/map`)
+    } else if (router.route === "/cafe/[cafeId]/write") {
+      router.push(`/cafe/${router.query.cafeId}`)
+    } else {
+      router.back();
+    }
   }, [router]);
   const doShare = useCallback(() => {
-    alert('todo: use WebShare API')
+    navigator?.share({
+      title: "카공 추천 카페!",
+      text: "카공 추천 카페!",
+      url: location.href,
+    })
   }, []);
   return(
     <div css={containerStyle({ shadow })}>
