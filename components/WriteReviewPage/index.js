@@ -1,5 +1,7 @@
 import LinearSelector from "./LinearSelector";
+import TextArea from "./TextArea";
 
 export {
-  LinearSelector,
+  LinearSelector as ReviewLinearSelector,
+  TextArea as ReviewTextArea,
 }
