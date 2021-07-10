@@ -57,9 +57,9 @@ const radioAreaStyle = ({ selected }) => css`
 
 const horizontalBarStyle = css`
   border:1px solid #e2e2e2;
-  width: 80%;
   top: 1.25rem;
-  left: 10%;
+  left: 1rem;
+  right: 1rem;
   position: absolute;
   z-index: 0;
 `;
