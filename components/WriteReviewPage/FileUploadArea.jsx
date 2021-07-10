@@ -104,12 +104,11 @@ export default function FileUploadArea({
     const resp = await axios.post("/images", formData, {
       headers: { 'content-type': 'multipart/formdata' },
     });
-    const imageSrc = resp.data[0];
+    const imageSrc = resp.data.data[0];
     const slot = [...uploadedSlot];
     for(let i in slot){
       if(!slot[i]){
         slot[i] = imageSrc;
-        slot.splice(-1);
         break;
       }
     }
