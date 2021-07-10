@@ -43,6 +43,8 @@ export default function TabViewPhoto({
           nextSrc={data[(photoIndex + 1) % data.length]}
           prevSrc={data[(photoIndex + data.length - 1) % data.length]}
           onCloseRequest={closeLightbox}
+          onMovePrevRequest={() => setPhotoIndex((photoIndex + images.length - 1) % images.length)}
+          onMoveNextRequest={() => setPhotoIndex((photoIndex + 1) % images.length)}
         />
       }
 
