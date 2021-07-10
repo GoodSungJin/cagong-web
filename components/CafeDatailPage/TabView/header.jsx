@@ -33,7 +33,7 @@ export default function TabViewHeader({
   return (
     <div css={containerStyle}>
        {Object.keys(TABS).map(tab => (
-        <Link href={`/cafe/${cafeId}/${tab}`} passHref scroll={false} key={tab}>
+        <Link href={`/cafe/${cafeId}/${tab}`} passHref replace={true} scroll={false} key={tab}>
           <span css={tabItemStyle(nowTab === tab)}>{TABS[tab]}</span>
         </Link>
       ))}

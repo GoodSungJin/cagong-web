@@ -4,17 +4,24 @@ import { useRouter } from 'next/router'
 import React, { useMemo } from 'react';
 
 function Loading() {
-  return null;
+  return (
+    <div>
+      loading...
+    </div>
+  );
 }
 
 export default function CafePage() {
   const router = useRouter();
   const { cafeId, nowTab } = router.query
   const selectedTab = useMemo(() => {
-    if(!nowTab) return nowTab;
+    if(!nowTab && !router.isReady) return nowTab;
     return Object.keys(CafeTabViewPages).includes(nowTab && nowTab[0]) ? nowTab[0] : "info";
-  }, [nowTab]);
-  const SelectedTabComponent = !nowTab ? Loading : CafeTabViewPages[selectedTab];
+  }, [nowTab, router.isReady]);
+  const SelectedTabComponent = useMemo(() => {
+    if(!selectedTab && !router.isReady) return Loading;
+    return CafeTabViewPages[selectedTab];
+  }, [selectedTab, router.isReady]) ;
   // TODO: fetch
   const tmpCafeInfo = {
     headerImage: "/assets/defaults/cafeHeader.png",
