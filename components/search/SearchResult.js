@@ -4,9 +4,9 @@ import Image from 'next/image'
 import Icon from '../../assets/images/icon_location_on.png'
 import {css} from "@emotion/react";
 
-function SearchResult({children}) {
+function SearchResult({ onClick, children}) {
 	return (
-		<StdResult>
+		<StdResult onClick={onClick}>
 			<StdIcon>
 				<Image src={Icon} width='100%' height='100%' />
 			</StdIcon>

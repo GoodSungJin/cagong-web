@@ -10,10 +10,10 @@ export default function() {
 
 			if (!data.documents) throw new Error('주소 검색 에러');
 
-			const [{ address_name, x, y }] = data.documents;
+			const [regionInfo] = data.documents;
 
 			return {
-				name: address_name,
+				name: regionInfo?.address_name || '',
 				x: 126.94626430747425,
 				y: 37.55681734677461
 			}

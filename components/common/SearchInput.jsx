@@ -1,4 +1,4 @@
-import {forwardRef, useImperativeHandle, useState} from "react";
+import { useState} from "react";
 import Image from 'next/image'
 
 import styled from "@emotion/styled";
@@ -7,7 +7,7 @@ import {css} from "@emotion/react";
 import SearchIcon from "../../assets/images/icon_search_orange.png";
 
 
-const SearchInput = ({ value, placeholder, onChange, onFocus }) => {
+const SearchInput = ({ value, placeholder, onChange, onFocus, onKeyPress }) => {
 	const [errors, setErrors] = useState({
 		touched: false
 	});
@@ -22,6 +22,7 @@ const SearchInput = ({ value, placeholder, onChange, onFocus }) => {
 					setErrors(prev => ({touched: true}));
 					onFocus(errors.touched);
 				}}
+				onKeyPress={onKeyPress}
 				onChange={onChange}
 				type='search'
 				placeholder={placeholder}

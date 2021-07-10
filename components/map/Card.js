@@ -1,11 +1,26 @@
 import styled from "@emotion/styled";
 import {css} from "@emotion/react";
+import Image from 'next/image';
+import IconWhite from '../../assets/images/icon_write.png';
 
-function Card({image, title, menuDescription, categoryIcon}) {
+function Card({ image, title, menuDescription, categoryIcon, onClickWrite }) {
 	return (
 		<StdCard>
 			<StdImage>
-				<img src="https://www.jeongdong.or.kr/static/portal/img/HKPU_04_04_pic3.jpg" height='100%' width='100%' alt=""/>
+				<img
+					src={image}
+					height='100%'
+					width='100%'
+					alt=""
+				/>
+				<StdWhiteButton onClick={onClickWrite}>
+					<Image
+						src={IconWhite}
+						height='100%'
+						width='100%'
+						alt=""
+					/>
+				</StdWhiteButton>
 			</StdImage>
 				<StdContentContainer>
 					<div>
@@ -46,7 +61,7 @@ const StdImage = styled.div`
 	  width: 100%;
     height: 182px;
 	  
-	  background-color: lightpink;
+	  position: relative;
   `};
 `;
 
@@ -61,8 +76,6 @@ const StdContentContainer = styled.div`
 	  justify-content: space-between;
   `};
 `;
-
-
 
 const StdTitle = styled.p`
   ${({theme: {colors, borderRadius}}) => css`
@@ -84,7 +97,19 @@ const StdMenuDescription = styled.p`
   `};
 `;
 
+const StdWhiteButton = styled.p`
+  ${({theme: {colors, borderRadius}}) => css`
+    width: 52px;
+	  height: 52px;
+	  
+		position: absolute;
+		right: 8px;
+		bottom: 8px; 
+  `};
+`;
+
 const StdIcon = styled.div`
 	width: 64px;
 	height: 64px;
+	
 `;

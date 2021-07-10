@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
 import {css} from "@emotion/react";
 
-function Tag({children}) {
+function Tag({onClick, children}) {
 	return (
-		<StdTag>
+		<StdTag onClick={onClick}>
 			<p>{children}</p>
 		</StdTag>
 	);
@@ -14,7 +14,7 @@ export default Tag;
 const StdTag = styled.div`
   ${({theme: {colors, borderRadius}}) => css`
     height: 32px;
-    padding: 12px 8px;
+    padding: 0 16px;
 	  
 	  display: inline-flex;
 	  justify-content: center;
