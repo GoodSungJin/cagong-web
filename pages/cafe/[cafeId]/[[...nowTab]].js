@@ -34,6 +34,7 @@ export default function CafePage() {
     <>
       <TopNavBar />
       <CafeDetailHeader 
+        cafeId={cafeId}
         headerImage={tmpCafeInfo.headerImage}
         title={tmpCafeInfo.title}
         cagongIndex={tmpCafeInfo.cagongIndex}

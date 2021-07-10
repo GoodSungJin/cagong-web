@@ -1,5 +1,7 @@
 import { css } from '@emotion/react'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
+import { useCallback } from 'react'
 
 const containerStyle = css`
   width: 100%;
@@ -49,17 +51,24 @@ const tagChipStyle = css`
 `
 
 export default function DetailHeader({
+  cafeId,
   headerImage = "/assets/defaults/cafeHeader.png",
   title,
   cagongIndex,
   reviewCount,
   tags,
 }) {
+  const router = useRouter();
+  const goToReview = useCallback(() => {
+    router.push({pathname: 'write', query: {
+      cafeId, title
+    }})
+  }, [router, cafeId, title])
   return (
     <div css={containerStyle}>
       <div css={imageWrapperStyle}>
         <Image src={headerImage} alt={"cafeHeader"} layout="responsive" width={375} height={275}/>
-        <button css={reviewButtonStyle}>
+        <button css={reviewButtonStyle} onClick={goToReview}>
           <Image src={"/assets/reviewButton.svg"} alt={"write review"} width={20} height={22}/>
         </button>
       </div>
