@@ -44,7 +44,7 @@ const radioAreaStyle = ({ selected }) => css`
     display: none;
     position: absolute;
     z-index: 10;
-    background-color: #000;
+    background-color: #fb6721;
   }
   ${selected && `
     .selected {
@@ -85,7 +85,7 @@ export default function LinearSelector({
               <span>{displayDigit && digit}</span>
             </button>
             <button className="selected" disabled>
-              <Image src="/assets/heart.svg" width={12} height={12} alt="selected"/>
+              <Image src="/assets/checked.svg" width={12} height={12} alt="selected"/>
             </button>
             <p>{descriptions && descriptions[index]}</p>
           </label>
