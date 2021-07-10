@@ -1,10 +1,20 @@
-import { CafeDetailHeader } from '@/components/CafeDatailPage';
+import { CafeDetailHeader, CafeTabViewHeader, CafeTabViewPages} from '@/components/CafeDatailPage';
 import TopNavBar from '@/components/common/TopNavBar';
 import { useRouter } from 'next/router'
+import React, { useMemo } from 'react';
+
+function Loading() {
+  return null;
+}
 
 export default function CafePage() {
   const router = useRouter();
-  const { cafeId } = router.query
+  const { cafeId, nowTab } = router.query
+  const selectedTab = useMemo(() => {
+    if(!nowTab) return nowTab;
+    return Object.keys(CafeTabViewPages).includes(nowTab && nowTab[0]) ? nowTab[0] : "info";
+  }, [nowTab]);
+  const SelectedTabComponent = !nowTab ? Loading : CafeTabViewPages[selectedTab];
   // TODO: fetch
   const tmpCafeInfo = {
     headerImage: "/assets/defaults/cafeHeader.png",
@@ -23,7 +33,8 @@ export default function CafePage() {
         reviewCount={tmpCafeInfo.reviewCount}
         tags={tmpCafeInfo.tags}
       />
-      상세페이지 of {cafeId}
+      <CafeTabViewHeader cafeId={cafeId} nowTab={selectedTab}/>
+      <SelectedTabComponent cafeId={cafeId}/>
     </>
   )
 }

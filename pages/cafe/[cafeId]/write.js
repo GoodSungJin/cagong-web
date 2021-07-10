@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router'
 
-export default function ReviewPage() {
+export default function WriteReviewPage() {
   const router = useRouter();
   const { cafeId } = router.query;
   return (
     <div> 
-      리뷰 of {cafeId}
+      Write review of {cafeId}
     </div>
   )
 }
