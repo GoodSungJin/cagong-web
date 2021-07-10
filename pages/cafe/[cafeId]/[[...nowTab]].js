@@ -12,6 +12,13 @@ function Loading() {
   );
 }
 
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
 const API_ROUTE_MAP = {
   info: "info",
   review: "reviews",
@@ -31,32 +38,45 @@ export default function CafePage() {
     return CafeTabViewPages[selectedTab];
   }, [selectedTab, router.isReady]);
 
-  // const { basicData, basicError } = useSWR(`/cafes/${cafeId}/info`, fetcher, {
-  //   isPaused: () => !(cafeId && selectedTab)
-  // });
+  const { data: baseData, error: baseError } = useSWR(`/cafes/${cafeId}`, fetcher, {
+    isPaused: () => !cafeId,
+  });
 
   const { data, error } = useSWR(`/cafes/${cafeId}/${API_ROUTE_MAP[selectedTab]}`, fetcher, {
     isPaused: () => !(cafeId && selectedTab)
   });
 
-  // TODO: fetch
-  const tmpCafeInfo = {
-    headerImage: "/assets/defaults/cafeHeader.png",
-    title: "12조 짱짱카페",
-    cagongIndex: "4.41",
-    reviewCount: 13,
-    tags: ["소음 낮음", "조명 밝음", "좌석 불편"]
+  const generateTag = ({noise, lighting, seat}) => {
+    const tags = [];
+    if (noise > 3) tags.push("소음 심함");
+    if (noise < 3) tags.push("소음 낮음");
+    if (lighting > 3) tags.push("조명 밝음");
+    if (lighting < 3) tags.push("조명 어두움");
+    if (seat > 3) tags.push("좌석 편함");
+    if (seat < 3) tags.push("좌석 불편함")
+    if (tags.length === 0) tags.push("무난함")
+    shuffleArray(tags);
+    return tags;
   }
+
+  const cafeInfo = {
+    headerImage: baseData?.data?.thumbnail ?? "/assets/defaults/cafeHeader.png",
+    title: baseData?.data?.name ?? "로딩중입니다",
+    cagongIndex: baseData?.data?.avg_star ?? "4.41",
+    reviewCount: baseData?.data?.cnt_review ?? 0,
+    tags: generateTag({ noise: baseData?.data?.avg_noise, lighting: baseData?.data?.avg_light, seat: baseData?.data?.avg_chair})
+  }
+
   return (
     <>
       <TopNavBar />
       <CafeDetailHeader 
         cafeId={cafeId}
-        headerImage={tmpCafeInfo.headerImage}
-        title={tmpCafeInfo.title}
-        cagongIndex={tmpCafeInfo.cagongIndex}
-        reviewCount={tmpCafeInfo.reviewCount}
-        tags={tmpCafeInfo.tags}
+        headerImage={cafeInfo.headerImage}
+        title={cafeInfo.title}
+        cagongIndex={cafeInfo.cagongIndex}
+        reviewCount={cafeInfo.reviewCount}
+        tags={cafeInfo.tags}
       />
       <CafeTabViewHeader cafeId={cafeId} nowTab={selectedTab}/>
       <SelectedTabComponent cafeId={cafeId} data={data?.data}/>
