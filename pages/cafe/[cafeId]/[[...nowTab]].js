@@ -14,13 +14,6 @@ function Loading() {
   );
 }
 
-function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-  }
-}
-
 const API_ROUTE_MAP = {
   info: "info",
   review: "reviews",
@@ -63,7 +56,6 @@ export default function CafePage() {
     if (seat > 3) tags.push("좌석 편함");
     if (seat < 3) tags.push("좌석 불편함")
     if (tags.length === 0) tags.push("무난함")
-    shuffleArray(tags);
     return tags;
   }
 

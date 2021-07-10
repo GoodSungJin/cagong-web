@@ -87,12 +87,12 @@ export default function TabViewInfo({
   useEffect(() => {
 		const container = document.getElementById('map');
 		const map = new kakao.maps.Map(container, {
-			center: new kakao.maps.LatLng(data.latitude, data.longitude),
+			center: new kakao.maps.LatLng(data?.latitude, data?.longitude),
 			level: 3
 		})
     new kakao.maps.Marker({
       map,
-      position: new kakao.maps.LatLng(data.latitude, data.longitude),
+      position: new kakao.maps.LatLng(data?.latitude, data?.longitude),
     })
   }, [data]);
   return (
