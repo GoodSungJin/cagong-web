@@ -24,7 +24,7 @@ export default function WriteReviewPage() {
   const [customer, setCustomer] = useState(3);
 
   const [textReview, setTextReview] = useState('');
-  const [uploadedSlot, setUploadedSlot] = useState(["/assets/defaults/cafeHeader.png", "/assets/wifi.svg", null]);
+  const [uploadedSlot, setUploadedSlot] = useState([null, null, null]);
 
   const onSubmit = async () => {
     const resp = await axios.post(`/cafes/${cafeId}/reviews`, {
