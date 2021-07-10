@@ -14,6 +14,9 @@ const containerStyle = ({shadow}) => css`
 `;
 
 const buttonStyle = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: transparent;
   border: none;
 `;

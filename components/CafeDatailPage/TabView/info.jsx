@@ -1,10 +1,12 @@
 import { css } from '@emotion/react'
 import Image from 'next/image';
+import { useEffect } from 'react';
 
 const containerStyle = css`
   padding: 0 1rem;
   h3 {
     margin: 1rem 0;
+    font-weight: 700;
   }
   > div {
     padding: 1rem 0;
@@ -49,17 +51,22 @@ const horizontalIndicatorsContainerStyle = css`
 const verticalIndicatorsContainerStyle = css`
   display: flex;
   flex-direction: column;
+  > div {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+  }
   > div > div {
     display: flex;
     flex-direction: row;
     align-items: center;
-    > span {
+    > .indicatorTitle {
       margin-left: 0.5rem;
     }
   }
-  > div > p {
+  > div > div.indicatorParagraph {
     margin: 0.5rem 0;
     margin-left: 1.5rem;
+    white-space: pre;
   }
   .indicatorString {
     font-weight: bold;
@@ -77,6 +84,17 @@ const CUSTOMER_INDICATOR_STRINGS = ["청소년", "대학생", "가족 단위", "
 export default function TabViewInfo({
   data
 }) {
+  useEffect(() => {
+		const container = document.getElementById('map');
+		const map = new kakao.maps.Map(container, {
+			center: new kakao.maps.LatLng(data.latitude, data.longitude),
+			level: 3
+		})
+    new kakao.maps.Marker({
+      map,
+      position: new kakao.maps.LatLng(data.latitude, data.longitude),
+    })
+  }, [data]);
   return (
     <div css={containerStyle}>
       <div>
@@ -117,29 +135,29 @@ export default function TabViewInfo({
             <Image src="/assets/elec.svg" width={16} height={16} alt="sockets" />
             <span className="indicatorTitle">콘센트</span>
           </div>
-          <p>콘센트가 <span className="indicatorString">{data?.avg_consent && SOCKET_INDICATOR_STRINGS[data?.avg_consent - 1]}</span></p>
+          <div className="indicatorParagraph">콘센트가 <span className="indicatorString">{data?.avg_consent && SOCKET_INDICATOR_STRINGS[data?.avg_consent - 1]}</span></div>
         </div>
         <div>
           <div>
             <Image src="/assets/wifi.svg" width={16} height={16} alt="sockets" />
             <span className="indicatorTitle">와이파이</span>
           </div>
-          <p>와이파이가 <span className="indicatorString">{data?.avg_wifi && WIFI_INDICATOR_STRINGS[data?.avg_wifi - 1]}</span></p>
+          <div className="indicatorParagraph">와이파이가 <span className="indicatorString">{data?.avg_wifi && WIFI_INDICATOR_STRINGS[data?.avg_wifi - 1]}</span></div>
         </div>
         <div>
           <div>
             <Image src="/assets/person.svg" width={16} height={16} alt="sockets" />
             <span className="indicatorTitle">주 이용 고객</span>
           </div>
-          <p><span className="indicatorString">{data?.customer && CUSTOMER_INDICATOR_STRINGS[data?.customer - 1]}</span> 손님이 많아요</p>
+          <div className="indicatorParagraph"><span className="indicatorString">{data?.customer && CUSTOMER_INDICATOR_STRINGS[data?.customer - 1]}</span> 손님이 많아요</div>
         </div>
       </div>
       <div>
         <h3>지도</h3>
-        <div>
-          (맨마지막에추가하자)
-          latlng: {data?.latitude} / {data?.longitude}
-        </div>
+        <div id="map" css={css`
+          width: 100%;
+          aspect-ratio: 1.6;
+        `}/>
       </div>
     </div>
   )

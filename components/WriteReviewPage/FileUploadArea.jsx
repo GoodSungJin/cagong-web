@@ -4,10 +4,11 @@ import Image from 'next/image';
 import { useCallback, useState } from 'react';
 
 const containerStyle = css`
-  margin-top: 1rem;
+  margin-top: 2rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  margin-bottom: 2rem;
 `
 
 const titleStyle = css`
