@@ -12,6 +12,7 @@ import SharedButton from "@/components/common/SharedButton";
 import CategoryNoise from '../assets/images/noise.png';
 import CategoryBright from '../assets/images/bright.png';
 import CategorySeat from '../assets/images/seat.png';
+import Link from "next/link";
 
 function MainPage() {
 	const ETIQUETTE_LIST = [
@@ -105,7 +106,9 @@ function MainPage() {
 			    />
 			  </StdButtonContainer>
 			  <StdButtonContainer>
-			    <SharedButton>내 주변 카페 가기</SharedButton>
+					<Link href="/map" passHref>
+			    	<SharedButton>내 주변 카페 가기</SharedButton>
+					</Link>
 			  </StdButtonContainer>
 		  </StdTop>
 		  <StdBottom>
