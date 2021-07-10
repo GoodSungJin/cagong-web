@@ -12,6 +12,13 @@ function Loading() {
   );
 }
 
+const API_ROUTE_MAP = {
+  info: "info",
+  review: "reviews",
+  photo: "images",
+  menu: "info",
+}
+
 export default function CafePage() {
   const router = useRouter();
   const { cafeId, nowTab } = router.query
@@ -24,7 +31,11 @@ export default function CafePage() {
     return CafeTabViewPages[selectedTab];
   }, [selectedTab, router.isReady]);
 
-  const { data, error } = useSWR(`/cafes/${cafeId}/${selectedTab}`, fetcher, {
+  // const { basicData, basicError } = useSWR(`/cafes/${cafeId}/info`, fetcher, {
+  //   isPaused: () => !(cafeId && selectedTab)
+  // });
+
+  const { data, error } = useSWR(`/cafes/${cafeId}/${API_ROUTE_MAP[selectedTab]}`, fetcher, {
     isPaused: () => !(cafeId && selectedTab)
   });
 
