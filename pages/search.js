@@ -5,7 +5,7 @@ import SearchBar from "@/components/search/SearchBar";
 import Tag from "@/components/search/Tag";
 import {css} from "@emotion/react";
 import SearchResult from "@/components/search/SearchResult";
-import api from "../store/api";
+import useApi from "../hooks/useApi";
 import {useRouter} from "next/router";
 
 function SearchPage() {
@@ -47,7 +47,7 @@ function SearchPage() {
 	];
 
 	const [inputValue, setInputValue] = useState('');
-	const {getAddressInfo} = api();
+	const {getAddressInfo} = useApi();
 	const router = useRouter();
 
 	const onClickTag = (keyword) => {
@@ -55,7 +55,6 @@ function SearchPage() {
 	}
 
 	const onClickResultRegion = () => {
-		console.log(23232323)
 		router.push('/map');
 	};
 

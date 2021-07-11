@@ -3,9 +3,9 @@ import {css} from "@emotion/react";
 import Image from 'next/image';
 import IconWhite from '../../assets/images/icon_write.png';
 
-function Card({ image, title, menuDescription, categoryIcon, onClickWrite }) {
+function Card({ image, title, menuDescription, categoryIcon, onClickWrite, onClick }) {
 	return (
-		<StdCard>
+		<StdCard onClick={onClick}>
 			<StdImage>
 				<img
 					src={image}
@@ -13,7 +13,11 @@ function Card({ image, title, menuDescription, categoryIcon, onClickWrite }) {
 					width='100%'
 					alt=""
 				/>
-				<StdWhiteButton onClick={onClickWrite}>
+				<StdWhiteButton onClick={(e) => {
+					e.stopPropagation();
+
+					onClickWrite();
+				}}>
 					<Image
 						src={IconWhite}
 						height='100%'
