@@ -81,6 +81,11 @@ const SOCKET_INDICATOR_STRINGS = ["거의 없어요", "적당히 있어요", "�
 const WIFI_INDICATOR_STRINGS = ["제공 안돼요", "제공 돼요", "빵빵합니다"];
 const CUSTOMER_INDICATOR_STRINGS = ["청소년", "대학생", "가족 단위", "직장인", "그 외"];
 
+const genIndicatorFilename = (category, score) => {
+  const refinedScore = Math.round(score);
+  return `/assets/${category}Indicator${refinedScore}.svg`;
+}
+
 export default function TabViewInfo({
   data
 }) {
@@ -112,21 +117,21 @@ export default function TabViewInfo({
       <div css={horizontalIndicatorsContainerStyle}>
         <div>
           <p className="indicatorTitle">소음지수</p>
-          <Image src="/assets/noiseIndicator.svg" width={90} height={90} alt="noise"/>
-          <p className="indicatorScore">{data?.avg_noise}{data?.avg_noise && ".0"}</p>
-          <p className="indicatorString">{data?.avg_noise && NOISE_INDICATOR_STRINGS[data?.avg_noise - 1]}</p>
+          <Image src={data?.avg_noise ? genIndicatorFilename('noise', data?.avg_noise) : "/assets/noiseIndicatorDefault.svg"} width={90} height={90} alt="noise"/>
+          <p className="indicatorScore">{data?.avg_noise}</p>
+          <p className="indicatorString">{data?.avg_noise && NOISE_INDICATOR_STRINGS[Math.round(data?.avg_noise) - 1]}</p>
         </div>
         <div>
           <p className="indicatorTitle">조명 밝기</p>
-          <Image src="/assets/lightingIndicator.svg" width={90} height={90} alt="noise"/>
-          <p className="indicatorScore">{data?.avg_light}{data?.avg_light && ".0"}</p>
-          <p className="indicatorString">{data?.avg_light && LIGHTING_INDICATOR_STRINGS[data?.avg_light - 1]}</p>
+          <Image src={data?.avg_light ? genIndicatorFilename('lighting', data?.avg_light) : "/assets/lightingIndicatorDefault.svg"} width={90} height={90} alt="noise"/>
+          <p className="indicatorScore">{data?.avg_light}</p>
+          <p className="indicatorString">{data?.avg_light && LIGHTING_INDICATOR_STRINGS[Math.round(data?.avg_light) - 1]}</p>
         </div>
         <div>
           <p className="indicatorTitle">좌석</p>
-          <Image src="/assets/seatIndicator.svg" width={90} height={90} alt="noise"/>
-          <p className="indicatorScore">{data?.avg_chair}{data?.avg_chair && ".0"}</p>
-          <p className="indicatorString">{data?.avg_chair && SEAT_INDICATOR_STRINGS[data?.avg_chair - 1]}</p>
+          <Image src={data?.avg_chair ? genIndicatorFilename('seat', data?.avg_chair) : "/assets/seatIndicatorDefault.svg"} width={90} height={90} alt="noise"/>
+          <p className="indicatorScore">{data?.avg_chair}</p>
+          <p className="indicatorString">{data?.avg_chair && SEAT_INDICATOR_STRINGS[Math.round(data?.avg_chair) - 1]}</p>
         </div>
       </div>
       <div css={verticalIndicatorsContainerStyle}>
