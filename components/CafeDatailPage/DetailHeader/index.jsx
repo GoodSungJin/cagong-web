@@ -45,6 +45,7 @@ const tagChipStyle = css`
   border: none;
   background-color: #f6f6f6;
   padding: 0.5rem;
+  margin-right: 0.5rem;
   > span {
     padding: 0 0.5rem;
   }
