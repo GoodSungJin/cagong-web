@@ -85,7 +85,9 @@ function SearchPage() {
 	    <SearchBar
 		    inputValue={inputValue}
 		    onChange={(e) => setInputValue(e.target.value)}
-		    onFocus={() => {}}
+		    onFocus={() => {
+		    	setInputValue(' ')
+		    }}
 		    onClose={() => {
 			    setInputValue('');
 			    router.push('/');

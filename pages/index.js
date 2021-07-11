@@ -136,7 +136,7 @@ function MainPage() {
 					    value={inputValue}
 				    />
 				  </StdButtonContainer>
-				  <StdButtonContainer onClick={() => router.push('/map')}> 
+				  <StdButtonContainer onClick={() => router.push('/map')}>
 				    <SharedButton>내 주변 카페 가기</SharedButton>
 				  </StdButtonContainer>
 			  </StdButtonGroup>
