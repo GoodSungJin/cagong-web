@@ -2,17 +2,20 @@ import styled from "@emotion/styled";
 import {css} from "@emotion/react";
 import Image from 'next/image';
 import IconWhite from '../../assets/images/icon_write.png';
+import Link from "next/link";
 
-function Card({ image, title, menuDescription, categoryIcon, onClickWrite }) {
+function Card({ cafeId, image, title, menuDescription, categoryIcon, onClickWrite }) {
 	return (
 		<StdCard>
 			<StdImage>
-				<img
-					src={image}
-					height='100%'
-					width='100%'
-					alt=""
-				/>
+				<Link href={`/cafe/${cafeId}`}>
+					<img
+						src={image}
+						height='100%'
+						width='100%'
+						alt=""
+					/>
+				</Link>
 				<StdWhiteButton onClick={onClickWrite}>
 					<Image
 						src={IconWhite}
@@ -22,6 +25,7 @@ function Card({ image, title, menuDescription, categoryIcon, onClickWrite }) {
 					/>
 				</StdWhiteButton>
 			</StdImage>
+			<Link href={`/cafe/${cafeId}`} passHref>
 				<StdContentContainer>
 					<div>
 						<StdTitle>
@@ -36,6 +40,7 @@ function Card({ image, title, menuDescription, categoryIcon, onClickWrite }) {
 						<img src={categoryIcon} width='100%' height='100%' alt=""/>
 					</StdIcon>
 				</StdContentContainer>
+			</Link>
 		</StdCard>
 	);
 }

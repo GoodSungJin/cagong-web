@@ -11,6 +11,7 @@ function CafeCarousel({ cafeList, onSlideChange }) {
 			style={{width: '306px'}}
 		>
 			<Card
+				cafeId={item.id}
 				image="https://www.jeongdong.or.kr/static/portal/img/HKPU_04_04_pic3.jpg"
 				title={item.place_name}
 				menuDescription='아메리카노 4,000원'
