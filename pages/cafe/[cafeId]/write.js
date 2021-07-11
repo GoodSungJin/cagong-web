@@ -3,6 +3,8 @@ import TopNavBar from '@/components/common/TopNavBar';
 import { useRouter } from 'next/router'
 import { ReviewFileUploadArea, ReviewLinearSelector, ReviewStarSelector, ReviewTextArea } from '@/components/WriteReviewPage';
 import { useState } from 'react';
+import axios from 'axios';
+import SharedButton from '@/components/common/SharedButton';
 
 const containerStyle = css`
   padding: 1.5rem;
@@ -22,7 +24,24 @@ export default function WriteReviewPage() {
   const [customer, setCustomer] = useState(3);
 
   const [textReview, setTextReview] = useState('');
-  const [uploadedSlot, setUploadedSlot] = useState(["/assets/defaults/cafeHeader.png", "/assets/wifi.svg", null]);
+  const [uploadedSlot, setUploadedSlot] = useState([null, null, null]);
+
+  const onSubmit = async () => {
+    const resp = await axios.post(`/cafes/${cafeId}/reviews`, {
+      star,
+      chair: seat,
+      noise,
+      light: lighting,
+      consent: sockets,
+      wifi: wifi,
+      customer: customer,
+      detail: textReview,
+      imageList: uploadedSlot.filter(e => !!e),
+    });
+    console.log(resp);
+    alert("제출이 완료되었습니다.");
+    router.push(`/cafe/${cafeId}`);
+  }
 
   return (
     <> 
@@ -38,6 +57,7 @@ export default function WriteReviewPage() {
         <hr/>
         <ReviewTextArea value={textReview} setValue={setTextReview} />
         <ReviewFileUploadArea uploadedSlot={uploadedSlot} setUploadedSlot={setUploadedSlot} />
+        <SharedButton onClick={onSubmit}>제출하기</SharedButton>
       </div>
     </>
   )

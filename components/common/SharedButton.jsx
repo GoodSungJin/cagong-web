@@ -1,9 +1,9 @@
 import {css} from "@emotion/react";
 import styled from "@emotion/styled";
 
-function SharedButton({ children }) {
+function SharedButton({ children, onClick }) {
   return (
-    <StdButton>{children}</StdButton>
+    <StdButton onClick={onClick}>{children}</StdButton>
   );
 }
 

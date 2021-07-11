@@ -1,7 +1,9 @@
+import { css } from '@emotion/react';
 import { CafeDetailHeader, CafeTabViewHeader, CafeTabViewPages, fetcher } from '@/components/CafeDatailPage';
+import SharedButton from '@/components/common/SharedButton';
 import TopNavBar from '@/components/common/TopNavBar';
 import { useRouter } from 'next/router'
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import useSWR from 'swr';
 
 function Loading() {
@@ -10,13 +12,6 @@ function Loading() {
       loading...
     </div>
   );
-}
-
-function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-  }
 }
 
 const API_ROUTE_MAP = {
@@ -46,6 +41,12 @@ export default function CafePage() {
     isPaused: () => !(cafeId && selectedTab)
   });
 
+  const routeToReview = useCallback(() => {
+    router.push({pathname: 'write', query: {
+      cafeId, title: baseData?.data?.name,
+    }})
+  }, [router, cafeId, baseData]);
+
   const generateTag = ({noise, lighting, seat}) => {
     const tags = [];
     if (noise > 3) tags.push("소음 심함");
@@ -55,7 +56,6 @@ export default function CafePage() {
     if (seat > 3) tags.push("좌석 편함");
     if (seat < 3) tags.push("좌석 불편함")
     if (tags.length === 0) tags.push("무난함")
-    shuffleArray(tags);
     return tags;
   }
 
@@ -79,7 +79,12 @@ export default function CafePage() {
         tags={cafeInfo.tags}
       />
       <CafeTabViewHeader cafeId={cafeId} nowTab={selectedTab}/>
-      <SelectedTabComponent cafeId={cafeId} data={data?.data}/>
+      {data && <SelectedTabComponent cafeId={cafeId} data={data?.data} baseData={baseData?.data}/>}
+      <div css={css`padding: 1rem;`}>
+        <SharedButton onClick={routeToReview}>
+          이 카페에 후기 작성하기
+        </SharedButton>
+      </div>
     </>
   )
 }
