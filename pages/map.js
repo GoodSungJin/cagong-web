@@ -1,18 +1,21 @@
 import {useCallback, useEffect, useState} from "react";
 import styled from "@emotion/styled";
-import api from "../store/api";
+import useApi from "../hooks/useApi";
+import Image from 'next/image'
 
 import IconOn from '../assets/images/icon_location_on.png';
 import IconOff from '../assets/images/icon_location_off.png';
 import CategoryNoise from '../assets/images/noise.png';
 import CategoryBright from '../assets/images/bright.png';
 import CategorySeat from '../assets/images/seat.png';
+import IconArrowDown from '../assets/images/icon_Arrow_down.png';
 
 import CafeCarousel from "@/components/map/CafeCarousel";
 import {useRouter} from "next/router";
+import {css} from "@emotion/react";
 
 function MapPage() {
-	const {getAddressInfo, getCafes} = api();
+	const {getAddressInfo, getCafes, getCafeInfo} = useApi();
 	const [cafeList, setCafeList] = useState([]);
 	const [currId, setCurrId] = useState(0);
 	const [location, setLocation] = useState([0, 0]);
@@ -21,7 +24,6 @@ function MapPage() {
 	const initMap = useCallback(({
 		x, y, id, list
 	}) => {
-		console.log(id, "SDSDSD")
 		const container = document.getElementById('map');
 		const map = new kakao.maps.Map(container, {
 			center: new kakao.maps.LatLng(y, x),
@@ -48,12 +50,32 @@ function MapPage() {
 		const init = async () => {
 			const { x, y } = await getAddressInfo('이대');
 			const res = await getCafes(x, y);
+			const list = res.map(item => ({
+				...item,
+				onClickWrite: () => router.push(`/cafe/${item.id}/review`),
+				onClick: () => router.push(`/cafe/${item.id}`),
+			}))
+			const cafeInfoList = await Promise.all(list.map(item => getCafeInfo(item.id)));
 
 			setLocation([x, y]);
-			setCafeList(res.map(item => ({
-				...item,
-				onClick: () => router.push(`/cafe/${item.id}/review`)
-			})));
+			setCafeList(list.map(item => {
+				const {
+					avg_noise,
+					avg_light,
+					avg_chair,
+					thumbnail
+				} = cafeInfoList.find(info => {
+					return (+item?.id || 0) === (+info?.id || 0)
+				} );
+				const avg = [avg_chair, avg_light, avg_noise];
+				const categories =[CategorySeat, CategoryBright, CategoryNoise];
+
+				return {
+					...item,
+					imageUrl: thumbnail,
+					categoryImage: categories[avg.findIndex(num => +num === +Math.max(...avg))].src
+				}
+			}));
 			setCurrId(res[0].id);
 
 			initMap({
@@ -66,10 +88,20 @@ function MapPage() {
 
 		init();
 	}, [])
-
-
+	
   return (
 	  <StdContainer>
+		  <StdRegionTag onClick={() => {
+		  	router.push('/search')
+		  }}>
+			  <StdTagText>
+				  이대
+			  </StdTagText>
+			  <StdArrowDown>
+			    <Image src={IconArrowDown} width='100%' height='100%'/>
+			  </StdArrowDown>
+		  </StdRegionTag>
+
   	  <StdMap id='map' />
 
 		  <StdCards>
@@ -115,4 +147,47 @@ const StdCards = styled.div`
 	z-index: 1;
 	
 	overflow: hidden;
+`;
+
+const StdRegionTag = styled.div`
+  ${({theme: {colors, borderRadius}}) => css`
+    height: 36px;
+	  
+    padding: 0 16px;
+	  
+	  position: absolute;
+	  top: 24px;
+	  left: 50%;
+	  transform: translateX(-50%);
+	  
+	  display: flex;
+	  align-items: center;
+	  justify-content: center;
+	  
+	  border-radius: 36px;
+    background-color: ${colors.black};
+	  z-index: 2;
+  `};
+`;
+
+const StdTagText = styled.span`
+  ${({theme: {colors, borderRadius}}) => css`
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 25px;
+    color: ${colors.white};
+  `};
+
+`;
+
+const StdArrowDown = styled.div`
+	width: 16px;
+	height: 16px;
+	
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+	margin-left: 4px;
 `;

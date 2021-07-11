@@ -9,17 +9,42 @@ import { css } from "@emotion/react";
 import SearchInput from "@/components/common/SearchInput";
 import SharedButton from "@/components/common/SharedButton";
 
-import CategoryNoise from '../assets/images/noise.png';
-import CategoryBright from '../assets/images/bright.png';
-import CategorySeat from '../assets/images/seat.png';
-import Link from "next/link";
+import CategoryNoise from '../assets/images/category_noise.png';
+import CategoryEyes from '../assets/images/category_eyes.png';
+import CategorySeat from '../assets/images/category_seat.png';
+import CategoryCozy from '../assets/images/category_cozy.png';
+import CategorySocket from '../assets/images/category_socket.png';
+import CategorySolo from '../assets/images/category_solo.png';
+
+import EtiquetteNoise from '../assets/images/etiquette_noise.png';
+import EtiquetteClear from '../assets/images/etiquette_clear.png';
+import EtiquetteDrink from '../assets/images/etiquette_drink.png';
+import EtiquetteSeat from '../assets/images/etiquette_seat.png';
+
+import Illust from '../assets/images/main_illust.png';
 
 function MainPage() {
 	const ETIQUETTE_LIST = [
-		'세시간이 지나면 \n추가로 음료를 \n주문하자',
-		'4인 좌석은 \n착석을 \n지양하자',
-		'시끄럽다면 \n내가 참자. \n이어폰을 끼자.',
-		'사용한 자리 \n정돈 필수! \n지우개 똥을 치우자'
+		{
+			title: '세시간이 지나면 \n추가로 음료를 \n주문하자',
+			image: EtiquetteDrink,
+			color: '#FB6721'
+		},
+		{
+			title: '4인 좌석은 \n착석을 \n지양하자',
+			image: EtiquetteSeat,
+			color: '#000000'
+		},
+		{
+			title: '시끄럽다면 \n내가 참자. \n이어폰을 끼자.',
+			image: EtiquetteNoise,
+			color: '#089F57'
+		},
+		{
+			title: '사용한 자리 \n정돈 필수! \n지우개 똥을 치우자',
+			image: EtiquetteClear,
+			color: '#FB6721'
+		}
 	];
 	const CATEGORIES = [
 		[
@@ -30,28 +55,28 @@ function MainPage() {
 			},
 			{
 				title: '아늑한 카페',
-				icon: CategorySeat
+				icon: CategoryCozy
 
 			},
 			{
-				title: '조용한 카페',
-				icon: CategoryBright
+				title: '자리가 편한 카페',
+				icon: CategorySeat
 
 			}],
 		[
 			{
 				title: '눈이 편한 카페',
-				icon: CategoryNoise
+				icon: CategoryEyes
 
 			},
 			{
-				title: '와이파이 빵빵',
-				icon: CategorySeat
+				title: '콘센트 많은 카페',
+				icon: CategorySocket
 
 			},
 			{
 				title: '혼공족 많은 카페',
-				icon: CategoryBright
+				icon: CategorySolo
 
 			}]
 	];
@@ -67,16 +92,20 @@ function MainPage() {
 	};
 
 	const etiquetteListEl = ETIQUETTE_LIST.map(item => (
-		<SwiperSlide key={item} style={{width: '180px'}}>
-			<StdEtiquette>
-				{item}
+		<SwiperSlide key={item.title} style={{width: '180px'}}>
+			<StdEtiquette backgroundColor={item.color}>
+				{item.title}
+
+				<StdEtiquetteIllust>
+					<Image src={item.image} width='100%' height='100%' />
+				</StdEtiquetteIllust>
 			</StdEtiquette>
 		</SwiperSlide>
 	));
 	const categoriesEl = CATEGORIES.map((row, idx) => (
 		<StdThumbnailRow key={idx}>
 			{row.map(category => (
-				<StdCategoryThumbnail key={category.title}>
+				<StdCategoryThumbnail key={category.title} onClick={() => router.push('/map')}>
 					<StdThumbnail>
 						<Image src={category.icon} alt={category.title} />
 					</StdThumbnail>
@@ -94,22 +123,26 @@ function MainPage() {
 		  <StdTop>
 		    <StdTitle>
 			    공부하러 <br />
-			    카페 어디로 갈까?
+			    카페 어디로 <br />
+			    갈래요?
 	      </StdTitle>
 
-			  <StdButtonContainer>
-			    <SearchInput
-				    onFocus={onFocus}
-				    onChange={onChange}
-				    placeholder="지역, 카페 검색하기"
-				    value={inputValue}
-			    />
-			  </StdButtonContainer>
-			  <StdButtonContainer>
-					<Link href="/map" passHref>
-			    	<SharedButton>내 주변 카페 가기</SharedButton>
-					</Link>
-			  </StdButtonContainer>
+			  <StdButtonGroup>
+				  <StdButtonContainer>
+				    <SearchInput
+					    onFocus={onFocus}
+					    onChange={onChange}
+					    placeholder="지역, 카페 검색하기"
+					    value={inputValue}
+				    />
+				  </StdButtonContainer>
+				  <StdButtonContainer onClick={() => router.push('/map')}>
+				    <SharedButton>내 주변 카페 가기</SharedButton>
+				  </StdButtonContainer>
+			  </StdButtonGroup>
+			  <StdIllust>
+				  <Image src={Illust} width='100%' height='100%' />
+			  </StdIllust>
 		  </StdTop>
 		  <StdBottom>
 			  <StdBottomTitle>혼공하기 좋은 카페 둘러보기</StdBottomTitle>
@@ -148,30 +181,31 @@ const StdMain = styled.main`
 const StdTop = styled.div`
   ${({theme: {colors, borderRadius}}) => css`
     width: 100%;
-    height: 468px;
+    height: 526px;
 	  
-	  padding: 0 24px;
+	  padding: 48px 24px 32px;
 	  
 	  display: flex;
 	  flex-direction: column;
-	  align-items: center;
-	  justify-content: center;
-	  
+	  justify-content: space-between;
+
+	  position: relative;
     background-color: ${colors.orange};
   `};
 `;
 
 const StdTitle = styled.h1`
   ${({theme: {colors, borderRadius}}) => css`
-	  margin-bottom: 12px;
-	  
     color: ${colors.white};
     font-weight: bold;
-    font-size: 28px;
-    line-height: 140%;
-    letter-spacing: -0.01em;
-	  text-align: center;
+    font-size: 36px;
+    line-height: 48px;
+    letter-spacing: -0.02em;
   `};
+`;
+
+const StdButtonGroup = styled.div`
+	width: 100%;
 `;
 
 const StdButtonContainer = styled.div`
@@ -179,6 +213,20 @@ const StdButtonContainer = styled.div`
 	
 	& + & {
 		margin-top: 12px;
+	}
+`;
+
+const StdIllust = styled.div`
+  width: 269.98px;
+  height: 210.78px;
+	
+	position: absolute;
+	bottom: 161px;
+	right: 16px;
+	
+	& > div {
+		width: 100%;
+		height: 100%;
 	}
 `;
 
@@ -244,7 +292,6 @@ const StdThumbnail = styled.div`
 	width: 90px;
 	height: 90px;
 	
-	margin-bottom: 8px;
 `;
 
 const StdThumbnailDescription = styled.p`
@@ -258,13 +305,15 @@ const StdThumbnailDescription = styled.p`
 `;
 
 const StdEtiquette = styled.div`
-  ${({theme: {colors, borderRadius}}) => css`
+  ${({backgroundColor, theme: {colors, borderRadius}}) => css`
     width: 100%;
     height: 220px;
 
 	  padding: 20px;
     border-radius: 10px;
-	  background-color: ${colors.black};
+	  background-color: ${backgroundColor};
+	  
+	  position: relative;
 
     font-style: normal;
     font-weight: 500;
@@ -277,4 +326,20 @@ const StdEtiquette = styled.div`
 const StdCarousel = styled.div`
 	width: 100%;
 	overflow: hidden;
+`;
+
+const StdEtiquetteIllust = styled.div`
+  ${({backgroundColor, theme: {colors, borderRadius}}) => css`
+		width: 100%;
+	  height: 108px;
+	  
+	  position: absolute;
+	  left: 0;
+	  bottom: 0;
+	  
+	  & > div {
+		  width: 100%;
+		  height: 100%;
+	  }
+  `};
 `;
