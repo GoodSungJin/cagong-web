@@ -1,3 +1,8 @@
+# 카공
+
+https://github.com/cereme/cagong-web 여기에 Fork해서
+cagong-web.vercel.app 여기에 배포되어있습니다.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
