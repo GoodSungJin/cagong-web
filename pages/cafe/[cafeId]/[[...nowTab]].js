@@ -79,7 +79,7 @@ export default function CafePage() {
         tags={cafeInfo.tags}
       />
       <CafeTabViewHeader cafeId={cafeId} nowTab={selectedTab}/>
-      {data && <SelectedTabComponent cafeId={cafeId} data={data?.data}/>}
+      {data && <SelectedTabComponent cafeId={cafeId} data={data?.data} baseData={baseData?.data}/>}
       <div css={css`padding: 1rem;`}>
         <SharedButton onClick={routeToReview}>
           이 카페에 후기 작성하기
